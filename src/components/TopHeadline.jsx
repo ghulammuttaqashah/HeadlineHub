@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import Card from "./Card";
+import Card from "./Card";          
 
-function TopHeadline({ category }) {
+function TopHeadline({category}) {
+
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -14,19 +15,10 @@ function TopHeadline({ category }) {
       if (category) {
         url = `https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${apiKey}`;
       }
-
-      // Adding headers for security
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+      const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
+        throw new Error("Network response was not ok");
       }
-
       const data = await response.json();
       setArticles(data.articles.slice(0, 5));  
     } catch (error) {
@@ -37,7 +29,7 @@ function TopHeadline({ category }) {
   };
 
   useEffect(() => {
-    apiFetch();
+    apiFetch();  
   }, [category]);
 
   return (
